@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+gunicorn
+google-cloud-storage
+joblib
+prophet
+pandas

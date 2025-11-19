@@ -1,0 +1,7 @@
+functions-framework
+pandas
+google-cloud-bigquery
+google-cloud-storage
+pyarrow
+prophet
+joblib
