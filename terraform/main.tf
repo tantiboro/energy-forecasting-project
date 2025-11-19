@@ -289,7 +289,7 @@ resource "google_cloud_run_v2_service" "api_service" {
     # This is the "build" step
     build {
       git_source {
-        uri        = "https://github.com/your-username/your-repo-name.git" # <-- CHANGE THIS
+        uri        = "https://github.com/tantiboro/energy-forecasting-project.git" # <-- CHANGE THIS
         repo_type  = "GITHUB"
         revision   = "main" # Or your branch name
       }
