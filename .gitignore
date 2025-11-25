@@ -95,3 +95,15 @@ venv.bak/
 .env
 .env.local
 .env.*
+venv/
+*.pyc
+__pycache__/
+.env
+terraform/.terraform/
+terraform/*.tfstate*
+terraform/.terraform.lock.hcl
+*.pkl
+*.json
+model_training_function/model.json
+delete_table.py
+fix_table.py

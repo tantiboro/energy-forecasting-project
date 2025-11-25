@@ -1,0 +1,55 @@
+name: Deploy to Google Cloud
+
+on:
+  push:
+    branches:
+      - main  # Runs whenever you push to main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Configure Docker for Artifact Registry
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    # --- BUILD & PUSH API ---
+    - name: Build and Push API Service
+      run: |
+        cd api_service
+        gcloud builds submit --tag us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/app-images/energy-api:latest .
+
+    # --- BUILD & PUSH DASHBOARD ---
+    - name: Build and Push Dashboard
+      run: |
+        cd dashboard
+        gcloud builds submit --tag us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/app-images/energy-dashboard:latest .
+
+    # --- TERRAFORM DEPLOY ---
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: |
+        cd terraform
+        terraform init
+
+    - name: Terraform Apply
+      run: |
+        cd terraform
+        terraform apply -auto-approve

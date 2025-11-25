@@ -2,6 +2,5 @@ fastapi
 uvicorn[standard]
 gunicorn
 google-cloud-storage
-joblib
-prophet
+prophet>=1.1.5
 pandas
