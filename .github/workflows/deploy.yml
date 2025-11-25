@@ -3,7 +3,7 @@ name: Deploy to Google Cloud
 on:
   push:
     branches:
-      - main  # Runs whenever you push to main
+      - main
 
 jobs:
   deploy:
@@ -48,8 +48,16 @@ jobs:
       run: |
         cd terraform
         terraform init
+      env:
+        # Pass credentials explicitly to be safe
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
 
     - name: Terraform Apply
+      # FIX: We inject the secrets as Terraform Variables (TF_VAR_...)
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+        TF_VAR_gcp_project_id: ${{ secrets.GCP_PROJECT_ID }}
+        TF_VAR_gcp_region: "us-central1"
       run: |
         cd terraform
         terraform apply -auto-approve
