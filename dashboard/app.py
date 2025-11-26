@@ -11,7 +11,7 @@ API_URL = os.environ.get("API_URL", "YOUR_API_URL_HERE")
 st.set_page_config(page_title="Energy Forecaster", layout="wide")
 
 # --- Header ---
-st.title("⚡ Serverless Energy Forecasting (v3)")
+st.title("⚡ Serverless Energy Forecasting (v5)")
 st.markdown(
     """
 This dashboard connects to a **Cloud Run** API serving a **Prophet** model.
